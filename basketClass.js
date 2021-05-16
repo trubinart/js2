@@ -14,11 +14,6 @@ class Basket {
         pass
     }
 
-    // Получить общую сумму карзины
-    getBasketTotalPrice() {
-        pass
-    }
-
     // Получить общее кол-во продуктов в карзине
     getBasketProductCount() {
         pass

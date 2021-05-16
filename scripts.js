@@ -1,34 +1,52 @@
-const goods = [
-    {title: 'Shirt', price: 150},
-    {title: 'Socks', price: 50},
-    {title: 'Jacket', price: 350},
-    {title: 'Shoes', price: 250},
-];
+class GoodsItem {
+    constructor(title, price) {
+        this.title = title;
+        this.price = price;
+    }
 
-// const renderGoodsItem = (title, price) => {
-//     return `<div class="goods-item"><h3>${title}</h3><p>${price}</p></div>`;
-// };
-//
-// const renderGoodsList = (list) => {
-//     let goodsList = list.map(item => renderGoodsItem(item.title, item.price));
-//     document.querySelector('.goods-list').innerHTML = goodsList;
-// }
-
-const renderGoodsItem = (title, price, img='http://placehold.it/200x150') => {
-    return `<div class="card" style="width: 18rem;">
-  <img src= ${img} class="card-img-top" alt="...">
-  <div class="card-body">
-    <h5 class="card-title product-name">${title}</h5>
-    <p class="card-text product-price">${price}</p>
-    <a href="#" class="btn btn-primary product-button">В корзину</a>
-  </div>
-</div>`;
-};
-
-const renderGoodsList = (list) => {
-    let goodsList = list.map(item => renderGoodsItem(item.title, item.price));
-    document.querySelector('.goods-list').innerHTML = goodsList.join('');
+    render() {
+        return `<div class="card" style="width: 18rem;">
+                  <img src= "http://placehold.it/200x150"' class="card-img-top" alt="...">
+                  <div class="card-body">
+                    <h5 class="card-title product-name">${this.title}</h5>
+                    <p class="card-text product-price">${this.price}</p>
+                    <a href="#" class="btn btn-primary product-button">В корзину</a>
+                  </div>
+                </div>`;
+    }
 }
 
+class GoodsList {
+    constructor() {
+        this.goods = [];
+    }
 
-renderGoodsList(goods);
+    fetchGoods() {
+        this.goods = [
+            {title: 'Shirt', price: 150},
+            {title: 'Socks', price: 50},
+            {title: 'Jacket', price: 350},
+            {title: 'Shoes', price: 250},
+        ];
+    }
+
+    render() {
+        let listHtml = '';
+        this.goods.forEach(good => {
+            const goodItem = new GoodsItem(good.title, good.price);
+            listHtml += goodItem.render();
+        });
+        document.querySelector('.goods-list').innerHTML = listHtml;
+    }
+
+    getTotalPrice() {
+        this.finalPrice = 0
+        this.goods.map((value) => this.finalPrice+=value.price )
+        return this.finalPrice
+    }
+}
+
+const list = new GoodsList();
+list.fetchGoods();
+list.render();
+list.getTotalPrice()
