@@ -38,15 +38,38 @@
                     <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
                     <button class="btn btn-outline-success" type="submit">Поиск</button>
                 </form>
-                <button type="button" class="btn btn-outline-primary">Корзина</button>
+                <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">Корзина
+                </button>
             </div>
         </div>
     </nav>
 </header>
+<!-- БЛОК С ТОВАРАМИ -->
 <main>
     <div style="height: 50px"></div>
     <div class="goods-list d-flex" style="justify-content: space-around"></div>
 </main>
+
+<!-- КОРЗИНА -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Корзина</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-primary">Сохранить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 
 <script src="scripts.js"></script>
