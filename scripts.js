@@ -20,11 +20,12 @@ class GoodsItem {
 class GoodsList {
     constructor() {
         this.goods = [];
+        this.filteredGoods = [];
     }
 
     render() {
         let listHtml = '';
-        this.goods.forEach(good => {
+        this.filteredGoods.forEach(good => {
             const goodItem = new GoodsItem(good.id_product, good.product_name, good.price);
             listHtml += goodItem.render();
         });
@@ -35,6 +36,7 @@ class GoodsList {
         fetch(`https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json`)
             .then((responce) => responce.json())
             .then((data) => this.goods = data)
+            .then((data) => this.filteredGoods = data)
             .then(() => this.render())
             .then(() => {
                 const get_button = document.querySelectorAll('.product-button')
@@ -56,6 +58,12 @@ class GoodsList {
         this.finalPrice = 0
         this.goods.map((value) => this.finalPrice += value.price)
         return this.finalPrice
+    }
+
+    filterGoods(value) {
+        const regexp = new RegExp(value, 'i');
+        this.filteredGoods = this.goods.filter(good => regexp.test(good.product_name));
+        this.render();
     }
 }
 
@@ -127,14 +135,14 @@ class Basket extends GoodsList {
 
 const list = new GoodsList();
 list.fetchGoods();
-
-const testBasket = new BasketItem(111, 'test', 1299)
 const basket = new Basket()
-basket.addOne(testBasket)
-console.log(basket.goods)
 basket.render()
 
-
+const searchInput = document.querySelector('.form-control')
+searchInput.addEventListener('keydown', (e) => {
+  const value = searchInput.value;
+  list.filterGoods(value);
+});
 
 // РАБОТА МОДАЛЬНОГО ОКНА КОРЗИНЫ
 var myModal = document.getElementById('myModal')
