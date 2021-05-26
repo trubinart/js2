@@ -4,7 +4,7 @@
     <div class="card-body">
       <h5 class="card-title product-name" :id="id">{{name}}</h5>
       <p class="card-text product-price">{{price}}</p>
-      <a href="#" class="btn btn-primary product-button">В корзину</a>
+      <a href="#" class="btn btn-primary product-button" :id="id">В корзину</a>
     </div>
   </div>
 </template>

@@ -1,12 +1,12 @@
 <template>
   <body>
-  <navigation/>
+  <navigation @searchKeydown="filter" />
   <!-- БЛОК С ТОВАРАМИ -->
   <main>
     <div style="height: 50px"></div>
-    <div class="goods-list d-flex" style="justify-content: space-around"
-         >
-      <product-item v-for="product in goods"
+    <div class="goods-list d-flex" style="justify-content: space-around">
+      <p v-if="goods.length === 0">Список товаров пуст</p>
+      <product-item v-else v-for="product in goods"
                     :key="product.id_product"
                     :id=product.id_product
                     :name=product.product_name
@@ -35,7 +35,8 @@ export default {
   },
 
   data: () => ({
-    goods: []
+    goods: [],
+    basket: [],
   }),
 
   methods: {
@@ -43,7 +44,12 @@ export default {
       fetch(url)
           .then((responce) => responce.json())
           .then((data) => this.goods = data)
-          .then(console.log(this.goods))
+    },
+
+    filter(data){
+      const regexp = new RegExp(data.search, 'i');
+      this.goods = this.goods.filter(good => regexp.test(good.product_name))
+      console.log(this.goods)
     }
   },
 
@@ -51,7 +57,6 @@ export default {
     this.getDataFromServer(API_URL)
   }
 }
-
 
 </script>
 
