@@ -6,9 +6,9 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-          <h5 class="card-title">тест</h5>
-          <p class="card-text price">1212</p>
-          <button type="button" class="btn btn-secondary delete">Удалить</button>
+          <h5 class="card-title">{{ name }}</h5>
+          <p class="card-text price">{{ price }}</p>
+          <button type="button" class="btn btn-secondary">Удалить</button>
         </div>
       </div>
     </div>
@@ -19,6 +19,13 @@
 <script>
 export default {
   name: "basketItem",
+
+
+  props: {
+    id: Number,
+    name: String,
+    price: Number,
+  },
 
 }
 </script>

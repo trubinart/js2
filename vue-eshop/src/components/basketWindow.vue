@@ -8,7 +8,12 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <basket-item />
+          <basket-item v-for="product in basketInWindow"
+                       :key=product.id_product
+                       :id=product.id_product
+                       :name=product.product_name
+                       :price=product.price
+          />
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -25,9 +30,20 @@ import basketItem from "@/components/basketItem";
 export default {
   name: "basketWindow",
 
+  props: {
+    basketInWindow: Array
+  },
+
   components: {
     basketItem,
   },
+
+  methods: {
+    setDeleteBasketItem(data) {
+      this.itemForDelete = data.basketItem
+      this.deleteBasketItem()
+    },
+  }
 }
 </script>
 
