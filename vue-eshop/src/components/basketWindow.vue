@@ -13,6 +13,7 @@
                        :id=product.id_product
                        :name=product.product_name
                        :price=product.price
+                       @del-basket-item = "(...args) => $emit('del-basket-item', args)"
           />
         </div>
         <div class="modal-footer">
@@ -26,27 +27,16 @@
 
 <script>
 import basketItem from "@/components/basketItem";
-
 export default {
   name: "basketWindow",
-
   props: {
     basketInWindow: Array
   },
-
   components: {
     basketItem,
   },
-
-  methods: {
-    setDeleteBasketItem(data) {
-      this.itemForDelete = data.basketItem
-      this.deleteBasketItem()
-    },
-  }
 }
 </script>
 
 <style scoped>
-
 </style>

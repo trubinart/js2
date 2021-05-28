@@ -4,7 +4,7 @@
     <div class="card-body">
       <h5 class="card-title product-name">{{ name }}</h5>
       <p class="card-text product-price">{{ price }}</p>
-      <a href="#" class="btn btn-primary" :id="id" @click="addBasketItem" ref="id">В корзину</a>
+      <a href="#" class="btn btn-primary" :id="id" @click="$emit('add-basket-item', id)" >В корзину</a>
     </div>
   </div>
 </template>
@@ -17,17 +17,8 @@ export default {
     name: String,
     price: Number,
   },
-
-  methods: {
-    addBasketItem() {
-      this.$emit('click',
-          {basketItem: this.$refs.id.id})
-    }
-  },
 }
-
 </script>
 
 <style scoped>
-
 </style>

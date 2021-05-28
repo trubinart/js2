@@ -8,7 +8,7 @@
         <div class="card-body">
           <h5 class="card-title">{{ name }}</h5>
           <p class="card-text price">{{ price }}</p>
-          <button type="button" class="btn btn-secondary">Удалить</button>
+          <button type="button" class="btn btn-secondary" @click="$emit('del-basket-item', id)">Удалить</button>
         </div>
       </div>
     </div>
@@ -20,11 +20,17 @@
 export default {
   name: "basketItem",
 
-
   props: {
     id: Number,
     name: String,
     price: Number,
+  },
+
+  methods: {
+    delBasketItem() {
+      this.$emit('click',
+          {basketItem: this.$refs.id.id})
+    }
   },
 
 }
