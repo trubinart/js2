@@ -9,12 +9,12 @@
         </div>
         <div class="modal-body">
           <basket-item v-for="product in basketInWindow"
+                       :product=product
                        :key=product.id_product
                        :id=product.id_product
                        :name=product.product_name
                        :price=product.price
-                       @del-basket-item = "(...args) => $emit('del-basket-item', args)"
-          />
+                       @del-basket-item="(...args) => $emit('del-basket-item', args)"/>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -27,6 +27,7 @@
 
 <script>
 import basketItem from "@/components/basketItem";
+
 export default {
   name: "basketWindow",
   props: {

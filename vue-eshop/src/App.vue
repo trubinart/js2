@@ -4,15 +4,19 @@
   <!-- БЛОК С ТОВАРАМИ -->
   <main>
     <div style="height: 50px"></div>
-    <div class="goods-list d-flex" style="justify-content: space-around">
+    <div class="goods-list d-flex"
+         style="justify-content: space-around;
+                flex-wrap: wrap;
+                 flex-direction: row;">
 
-        <p v-if="goods.length === 0 && !errorVisible">Список товаров пуст</p>
-        <product-item v-else v-for="product in goods"
-                      :key=product.id_product
-                      :id=product.id_product
-                      :name=product.product_name
-                      :price=product.price
-                      @add-basket-item="addBasketItem"/>
+      <p v-if="goods.length === 0 && !errorVisible">Список товаров пуст</p>
+      <product-item v-else v-for="product in goods"
+                    :product=product
+                    :key=product.id_product
+                    :id=product.id_product
+                    :name=product.product_name
+                    :price=product.price
+                    @add-basket-item="addBasketItem"/>
       <errorData v-if="errorVisible">
       </errorData>
     </div>
@@ -31,7 +35,7 @@ import basketWindow from "@/components/basketWindow";
 import productItem from "@/components/productItem";
 import errorData from "@/components/errorData";
 
-const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
+const API_URL = 'http://localhost:3000'
 
 export default {
   name: 'App',
@@ -50,7 +54,7 @@ export default {
   }),
 
   methods: {
-    getDataFromServer(url) {
+    getProductsFromServer(url) {
       fetch(url)
           .then((responce) => responce.json())
           .then((data) => this.goods = data)
@@ -60,30 +64,55 @@ export default {
           })
     },
 
+    getBasketFromServer(url) {
+      fetch(url)
+          .then((responce) => responce.json())
+          .then((data) => this.basket = data)
+          .catch((err) => {
+            console.log(err)
+            this.errorVisible = !this.errorVisible
+          })
+    },
+
+
     filter(data) {
       const regexp = new RegExp(data.search, 'i');
       this.goods = this.goods.filter(good => regexp.test(good.product_name))
     },
 
     addBasketItem(data) {
-      this.goods.forEach((good) => {
-        if (good.id_product == data) {
-          this.basket.push(good)
-        }
+      fetch(`${API_URL}/addToBasket`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
       })
+          .then((data) => {
+            console.log(data.json())
+            this.getBasketFromServer(`${API_URL}/basket`)
+          })
     },
 
     deleteBasketItem(data) {
-      this.goods.forEach((good) => {
-        if (good.id_product == data) {
-          this.basket.pop(good)
-        }
+              fetch(`${API_URL}/delFromBasket`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data),
       })
+          .then((data) => {
+            console.log(data.json())
+            this.getBasketFromServer(`${API_URL}/basket`)
+          })
     },
+
   },
 
   mounted() {
-    this.getDataFromServer(API_URL)
+    this.getProductsFromServer(`${API_URL}/products`)
+    this.getBasketFromServer(`${API_URL}/basket`)
   }
 }
 
